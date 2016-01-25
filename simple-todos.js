@@ -18,8 +18,10 @@ if (Meteor.isClient) {
  
       // Insert a task into the collection
       Tasks.insert({
-        text: text,
-        createdAt: new Date() // current time
+        text: text,        
+        createdAt: new Date(),            // current time
+        owner: Meteor.userId(),           // _id of logged in user
+        username: Meteor.user().services.google.name  // username of logged in user
       });
  
       // Clear form
@@ -39,6 +41,16 @@ if (Meteor.isClient) {
     }
   });
    
+   
+   Accounts.ui.config({
+    passwordSignupFields: "USERNAME_ONLY"
+  });
+  
+  Template.item.helpers({
+    equals: function(v1, v2) {
+        return (v1 === v2);
+    }
+});
   
 }
 
